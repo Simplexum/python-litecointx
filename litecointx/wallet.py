@@ -244,6 +244,7 @@ __all__ = (
     'CBase58LitecoinAddress',
     'CBech32LitecoinAddress',
     'P2SHLitecoinAddress',
+    'P2SHLitecoinLegacyAddress',
     'P2PKHLitecoinAddress',
     'P2WSHLitecoinAddress',
     'P2WPKHLitecoinAddress',
