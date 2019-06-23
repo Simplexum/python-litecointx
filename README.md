@@ -13,7 +13,7 @@ With contextual switch to Litecoin parameters:
 ```
 import os
 import litecointx
-from bitcointx import ChainParams, CurrentChainParams
+from bitcointx import ChainParams, GetCurrentChainParams
 from bitcointx.wallet import (
     CCoinKey, CCoinExtKey, P2WPKHCoinAddress, CCoinAddress
 )
@@ -21,7 +21,7 @@ from bitcointx.wallet import (
 with ChainParams('litecoin'):
     k = CCoinExtKey.from_seed(os.urandom(32))
     a = P2WPKHCoinAddress.from_pubkey(k.derive_path("m/0h/0h/1").pub)
-    print('example {} address: {}'.format(CurrentChainParams().NAME, a))
+    print('example {} address: {}'.format(GetCurrentChainParams().NAME, a))
     assert CCoinAddress(str(a)) == a
 
 ```
