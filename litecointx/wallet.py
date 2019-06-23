@@ -23,6 +23,8 @@ from bitcointx.wallet import (
     CCoinKey, CCoinExtKey, CCoinExtPubKey
 )
 
+import litecointx
+from bitcointx import GetCurrentChainParams
 from bitcointx.core.script import CScript
 from .core.script import CLitecoinScript
 
@@ -57,7 +59,21 @@ class CLitecoinRegtestAddress(CCoinAddressBase,
 
 
 class CBase58LitecoinAddress(CBase58CoinAddressCommon, CLitecoinAddress):
-    ...
+
+    @classmethod
+    def _get_base58_address_classes(cls):
+        params = GetCurrentChainParams()
+        if not isinstance(params, litecointx.LitecoinMainnetParams) or\
+                not params.allow_legacy_p2sh:
+            return (P2SHLitecoinAddress, P2PKHLitecoinAddress)
+
+        # If LitecoinMainnetParams params is not in effect,
+        # P2SHLitecoinLegacyAddress can always be instantiated directly.
+        # If LitecoinMainnetParams is in effect, and allow_legacy_p2sh
+        # is enabled, it will be considered when converting addrs from str.
+
+        return (P2SHLitecoinAddress, P2SHLitecoinLegacyAddress,
+                P2PKHLitecoinAddress)
 
 
 class CBase58LitecoinTestnetAddress(CBase58CoinAddressCommon,

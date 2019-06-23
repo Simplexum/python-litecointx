@@ -25,6 +25,9 @@ class LitecoinMainnetParams(BitcoinMainnetParams):
     TRANSACTION_IDENTITY = litecointx.core.LitecoinTransactionIdentityMeta
     WALLET_IDENTITY = litecointx.wallet.LitecoinWalletIdentityMeta
 
+    def __init__(self, allow_legacy_p2sh=False):
+        self.allow_legacy_p2sh = allow_legacy_p2sh
+
 
 class LitecoinTestnetParams(LitecoinMainnetParams):
     NAME = 'litecoin/testnet'
