@@ -48,3 +48,16 @@ canonical_adr = P2SHLitecoinAddress.from_scriptPubKey(legacy_adr.to_scriptPubKey
 assert str(canonical_adr) == 'MMDkQMv8pGGmAXdVyxaW8YtQMCHw7eouma'
 
 ```
+
+Without special parameter that makes CCoinAddress to decode legacy p2sh addresses:
+
+```
+from bitcointx import SelectChainParams
+from bitcointx.wallet import CCoinAddress
+from litecointx.wallet import P2SHLitecoinLegacyAddress
+
+SelectChainParams('litecoin', allow_legacy_p2sh=True)
+legacy_adr = CCoinAddress('3F1c6UWAs9RLN2Mbt5bAJue12VhVCorXzs')
+assert isinstance(legacy_adr, P2SHLitecoinLegacyAddress)
+```
+this also works with ChainParams context manager.
