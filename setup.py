@@ -9,7 +9,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.md')) as f:
     README = f.read()
 
-requires = ['python-bitcointx>=1.0.0']
+requires = ['python-bitcointx>=1.0.0,<2']
 
 setup(name='python-litecointx',
       version=__version__,
