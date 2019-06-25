@@ -10,7 +10,7 @@ It builds on top, and is intended to be used along with python-bitcointx library
 
 With contextual switch to Litecoin parameters:
 
-```
+```python
 import os
 import litecointx
 from bitcointx import ChainParams, GetCurrentChainParams
@@ -28,7 +28,7 @@ with ChainParams('litecoin'):
 
 With global switch to Litecoin parameters:
 
-```
+```python
 from litecointx import LitecoinMainnetParams
 from bitcointx import SelectChainParams
 
@@ -40,7 +40,7 @@ SelectChainParams(LitecoinMainnetParams)
 
 Without the switch of chain parameters:
 
-```
+```python
 from litecointx.wallet import P2SHLitecoinLegacyAddress, P2SHLitecoinAddress
 
 legacy_adr = P2SHLitecoinLegacyAddress('3F1c6UWAs9RLN2Mbt5bAJue12VhVCorXzs')
@@ -51,7 +51,7 @@ assert str(canonical_adr) == 'MMDkQMv8pGGmAXdVyxaW8YtQMCHw7eouma'
 
 Without special parameter that makes CCoinAddress to decode legacy p2sh addresses:
 
-```
+```python
 from bitcointx import SelectChainParams
 from bitcointx.wallet import CCoinAddress
 from litecointx.wallet import P2SHLitecoinLegacyAddress
