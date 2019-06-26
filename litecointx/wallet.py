@@ -24,7 +24,7 @@ from bitcointx.wallet import (
 )
 
 import litecointx
-from bitcointx import GetCurrentChainParams
+from bitcointx import get_current_chain_params
 from bitcointx.core.script import CScript
 from .core.script import CLitecoinScript
 
@@ -62,7 +62,7 @@ class CBase58LitecoinAddress(CBase58CoinAddressCommon, CLitecoinAddress):
 
     @classmethod
     def _get_base58_address_classes(cls):
-        params = GetCurrentChainParams()
+        params = get_current_chain_params()
         if not isinstance(params, litecointx.LitecoinMainnetParams) or\
                 not params.allow_legacy_p2sh:
             return (P2SHLitecoinAddress, P2PKHLitecoinAddress)

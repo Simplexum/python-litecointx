@@ -13,7 +13,7 @@ With contextual switch to Litecoin parameters:
 ```python
 import os
 import litecointx
-from bitcointx import ChainParams, GetCurrentChainParams
+from bitcointx import ChainParams, get_current_chain_params
 from bitcointx.wallet import (
     CCoinKey, CCoinExtKey, P2WPKHCoinAddress, CCoinAddress
 )
@@ -21,7 +21,7 @@ from bitcointx.wallet import (
 with ChainParams('litecoin'):
     k = CCoinExtKey.from_seed(os.urandom(32))
     a = P2WPKHCoinAddress.from_pubkey(k.derive_path("m/0h/0h/1").pub)
-    print('example {} address: {}'.format(GetCurrentChainParams().NAME, a))
+    print('example {} address: {}'.format(get_current_chain_params().NAME, a))
     assert CCoinAddress(str(a)) == a
 
 ```
@@ -30,11 +30,11 @@ With global switch to Litecoin parameters:
 
 ```python
 from litecointx import LitecoinMainnetParams
-from bitcointx import SelectChainParams
+from bitcointx import select_chain_params
 
-SelectChainParams('litecoin')
+select_chain_params('litecoin')
 # or, using the chain params class directly
-SelectChainParams(LitecoinMainnetParams)
+select_chain_params(LitecoinMainnetParams)
 
 ```
 
@@ -52,11 +52,11 @@ assert str(canonical_adr) == 'MMDkQMv8pGGmAXdVyxaW8YtQMCHw7eouma'
 Without special parameter that makes CCoinAddress to decode legacy p2sh addresses:
 
 ```python
-from bitcointx import SelectChainParams
+from bitcointx import select_chain_params
 from bitcointx.wallet import CCoinAddress
 from litecointx.wallet import P2SHLitecoinLegacyAddress
 
-SelectChainParams('litecoin', allow_legacy_p2sh=True)
+select_chain_params('litecoin', allow_legacy_p2sh=True)
 legacy_adr = CCoinAddress('3F1c6UWAs9RLN2Mbt5bAJue12VhVCorXzs')
 assert isinstance(legacy_adr, P2SHLitecoinLegacyAddress)
 ```

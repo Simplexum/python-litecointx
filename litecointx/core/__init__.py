@@ -82,7 +82,8 @@ class CLitecoinMutableTxInWitness(CLitecoinTxInWitness,
     __slots__ = []
 
 
-class _CLitecoinDummyTxOutWitness(CTxOutWitnessBase):
+class _CLitecoinDummyTxOutWitness(CTxOutWitnessBase,
+                                  metaclass=LitecoinTransactionIdentityMeta):
     pass
 
 
