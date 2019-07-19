@@ -12,6 +12,7 @@
 from .version import __version__
 
 import litecointx.core
+import litecointx.core.script
 import litecointx.wallet
 
 from bitcointx import BitcoinMainnetParams
@@ -19,26 +20,22 @@ from bitcointx import BitcoinMainnetParams
 
 # Declare chain params after frontend classes are regstered in wallet.py,
 # so that issubclass checks in ChainParamsMeta.__new__() would pass
-class LitecoinMainnetParams(BitcoinMainnetParams):
-    NAME = 'litecoin'
+class LitecoinMainnetParams(BitcoinMainnetParams, name='litecoin'):
     RPC_PORT = 9332
-    TRANSACTION_IDENTITY = litecointx.core.LitecoinTransactionIdentityMeta
-    WALLET_IDENTITY = litecointx.wallet.LitecoinWalletIdentityMeta
+    WALLET_DISPATCHER = litecointx.wallet.WalletLitecoinClassDispatcher
 
     def __init__(self, allow_legacy_p2sh=False):
         self.allow_legacy_p2sh = allow_legacy_p2sh
 
 
-class LitecoinTestnetParams(LitecoinMainnetParams):
-    NAME = 'litecoin/testnet'
+class LitecoinTestnetParams(LitecoinMainnetParams, name='litecoin/testnet'):
     RPC_PORT = 19332
-    WALLET_IDENTITY = litecointx.wallet.LitecoinTestnetWalletIdentityMeta
+    WALLET_DISPATCHER = litecointx.wallet.WalletLitecoinTestnetClassDispatcher
 
 
-class LitecoinRegtestParams(LitecoinMainnetParams):
-    NAME = 'litecoin/regtest'
+class LitecoinRegtestParams(LitecoinMainnetParams, name='litecoin/regtest'):
     RPC_PORT = 19443
-    WALLET_IDENTITY = litecointx.wallet.LitecoinRegtestWalletIdentityMeta
+    WALLET_DISPATCHER = litecointx.wallet.WalletLitecoinRegtestClassDispatcher
 
 
 __all__ = (

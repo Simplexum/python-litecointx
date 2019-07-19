@@ -11,7 +11,9 @@
 
 # pylama:ignore=E501
 
-from bitcointx.tests.test_wallet import Test_CCoinAddress
+import unittest
+
+from bitcointx.tests.test_wallet import test_address_implementations
 
 from bitcointx import ChainParams
 from bitcointx.wallet import CCoinAddress, CCoinAddressError
@@ -20,12 +22,10 @@ from litecointx import LitecoinMainnetParams
 from litecointx.wallet import P2SHLitecoinLegacyAddress
 
 
-class Test_LitecoinAddress(Test_CCoinAddress):
+class Test_LitecoinAddress(unittest.TestCase):
 
     def test_address_implementations(self, paramclasses=None):
-        super(
-            Test_LitecoinAddress, self
-        ).test_address_implementations(paramclasses=[LitecoinMainnetParams])
+        test_address_implementations(self, paramclasses=[LitecoinMainnetParams])
 
     def test_legacy_p2sh(self):
         with ChainParams('litecoin', allow_legacy_p2sh=True):

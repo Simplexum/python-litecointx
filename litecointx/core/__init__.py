@@ -12,127 +12,90 @@
 # pylama:ignore=E501
 
 from bitcointx.core import (
-    CoinTransactionIdentityMeta,
-    COutPointBase, CTxWitnessBase, CTxInWitnessBase, CTxOutWitnessBase,
-    CTxInBase, CTxOutBase, CTransactionBase,
+    CoreCoinClassDispatcher, CoreCoinClass,
 
-    CTransaction, CTxIn, CTxOut, CTxWitness, CTxInWitness, CTxOutWitness,
+    CTransaction, CTxIn, CTxOut, CTxWitness, CTxInWitness,
     CMutableTransaction, CMutableTxIn, CMutableTxOut, CMutableTxWitness,
-    CMutableTxInWitness, CMutableTxOutWitness, COutPoint, CMutableOutPoint
+    CMutableTxInWitness, COutPoint, CMutableOutPoint
 )
-from bitcointx.core.serialize import MutableSerializableMeta
-from bitcointx.core.script import CScript
-from litecointx.core.script import CLitecoinScript
 
 
-class LitecoinTransactionIdentityMeta(CoinTransactionIdentityMeta):
-    @classmethod
-    def _get_extra_classmap(cls):
-        return {CScript: CLitecoinScript}
-
-
-class LitecoinMutableTransactionIdentityMeta(LitecoinTransactionIdentityMeta,
-                                             MutableSerializableMeta):
+class CoreLitecoinClassDispatcher(CoreCoinClassDispatcher):
     ...
 
 
-class CLitecoinOutPoint(COutPointBase,
-                        metaclass=LitecoinTransactionIdentityMeta):
+class CoreLitecoinClass(CoreCoinClass, metaclass=CoreLitecoinClassDispatcher):
+    ...
+
+
+class CLitecoinOutPoint(COutPoint, CoreLitecoinClass):
     """Litecoin COutPoint"""
     __slots__ = []
 
 
-class CLitecoinMutableOutPoint(CLitecoinOutPoint,
-                               metaclass=LitecoinMutableTransactionIdentityMeta):
+class CLitecoinMutableOutPoint(CLitecoinOutPoint, CMutableOutPoint,
+                               CoreLitecoinClass, mutable_of=CLitecoinOutPoint):
     """A mutable Litecoin COutPoint"""
     __slots__ = []
 
 
-class CLitecoinTxIn(CTxInBase, metaclass=LitecoinTransactionIdentityMeta):
+class CLitecoinTxIn(CTxIn, CoreLitecoinClass):
     """An immutable Litecoin TxIn"""
     __slots__ = []
 
 
-class CLitecoinMutableTxIn(CLitecoinTxIn,
-                           metaclass=LitecoinMutableTransactionIdentityMeta):
+class CLitecoinMutableTxIn(CLitecoinTxIn, CMutableTxIn, CoreLitecoinClass,
+                           mutable_of=CLitecoinTxIn):
     """A mutable Litecoin TxIn"""
     __slots__ = []
 
 
-class CLitecoinTxOut(CTxOutBase, metaclass=LitecoinTransactionIdentityMeta):
+class CLitecoinTxOut(CTxOut, CoreLitecoinClass):
     """A immutable Litecoin TxOut"""
     __slots__ = []
 
 
-class CLitecoinMutableTxOut(CLitecoinTxOut,
-                            metaclass=LitecoinMutableTransactionIdentityMeta):
+class CLitecoinMutableTxOut(CLitecoinTxOut, CMutableTxOut, CoreLitecoinClass,
+                            mutable_of=CLitecoinTxOut):
     """A mutable Litecoin CTxOut"""
     __slots__ = []
 
 
-class CLitecoinTxInWitness(CTxInWitnessBase,
-                           metaclass=LitecoinTransactionIdentityMeta):
+class CLitecoinTxInWitness(CTxInWitness, CoreLitecoinClass):
     """Immutable Litecoin witness data for a single transaction input"""
     __slots__ = []
 
 
-class CLitecoinMutableTxInWitness(CLitecoinTxInWitness,
-                                  metaclass=LitecoinMutableTransactionIdentityMeta):
+class CLitecoinMutableTxInWitness(CLitecoinTxInWitness, CMutableTxInWitness,
+                                  CoreLitecoinClass,
+                                  mutable_of=CLitecoinTxInWitness):
     """Mutable Litecoin witness data for a single transaction input"""
     __slots__ = []
 
 
-class _CLitecoinDummyTxOutWitness(CTxOutWitnessBase,
-                                  metaclass=LitecoinTransactionIdentityMeta):
-    pass
-
-
-class CLitecoinTxWitness(CTxWitnessBase,
-                         metaclass=LitecoinTransactionIdentityMeta):
+class CLitecoinTxWitness(CTxWitness, CoreLitecoinClass):
     """Immutable witness data for all inputs to a transaction"""
     __slots__ = []
 
 
-class CLitecoinMutableTxWitness(CLitecoinTxWitness,
-                                metaclass=LitecoinMutableTransactionIdentityMeta):
+class CLitecoinMutableTxWitness(CLitecoinTxWitness, CMutableTxWitness,
+                                CoreLitecoinClass,
+                                mutable_of=CLitecoinTxWitness):
     """Witness data for all inputs to a transaction, mutable version"""
     __slots__ = []
 
 
-class CLitecoinMutableTransaction(CTransactionBase,
-                                  metaclass=LitecoinMutableTransactionIdentityMeta):
-    """Litecoin transaction"""
-    __slots__ = []
-
-
-class CLitecoinTransaction(CTransactionBase,
-                           metaclass=LitecoinTransactionIdentityMeta):
+class CLitecoinTransaction(CTransaction, CoreLitecoinClass):
     """Litecoin transaction, mutable version"""
     __slots__ = []
 
 
-LitecoinTransactionIdentityMeta.set_classmap({
-    CTransaction: CLitecoinTransaction,
-    CTxIn: CLitecoinTxIn,
-    CTxOut: CLitecoinTxOut,
-    CTxWitness: CLitecoinTxWitness,
-    CTxInWitness: CLitecoinTxInWitness,
-    CTxOutWitness: _CLitecoinDummyTxOutWitness,
-    COutPoint: CLitecoinOutPoint,
-})
+class CLitecoinMutableTransaction(CLitecoinTransaction, CMutableTransaction,
+                                  CoreLitecoinClass,
+                                  mutable_of=CLitecoinTransaction):
+    """Litecoin transaction"""
+    __slots__ = []
 
-LitecoinMutableTransactionIdentityMeta.set_classmap({
-    CMutableTransaction: CLitecoinMutableTransaction,
-    CMutableTxIn: CLitecoinMutableTxIn,
-    CMutableTxOut: CLitecoinMutableTxOut,
-    CMutableTxWitness: CLitecoinMutableTxWitness,
-    CMutableTxInWitness: CLitecoinMutableTxInWitness,
-    CMutableTxOutWitness: _CLitecoinDummyTxOutWitness,
-    CMutableOutPoint: CLitecoinMutableOutPoint,
-})
-
-LitecoinMutableTransactionIdentityMeta.set_mutable_immutable_links(
-    LitecoinTransactionIdentityMeta)
 
 __all__ = (
     'CLitecoinOutPoint',

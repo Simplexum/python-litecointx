@@ -9,13 +9,24 @@
 # propagated, or distributed except according to the terms contained in the
 # LICENSE file.
 
-from bitcointx.core.script import CScript, CScriptBase
+from bitcointx.core.script import (
+    CScript, ScriptCoinClassDispatcher, ScriptCoinClass
+)
 
 
-class CLitecoinScript(CScriptBase):
+class ScriptLitecoinClassDispatcher(ScriptCoinClassDispatcher):
     ...
 
 
-# Make CLitecoinScript behave like a a subclass of CScript
-# regarding isinstance(script, CScript), etc
-CScript.register(CLitecoinScript)
+class ScriptLitecoinClass(ScriptCoinClass,
+                          metaclass=ScriptLitecoinClassDispatcher):
+    ...
+
+
+class CLitecoinScript(CScript, ScriptLitecoinClass):
+    ...
+
+
+__all__ = (
+    'CLitecoinScript',
+)
