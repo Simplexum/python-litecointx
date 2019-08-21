@@ -49,7 +49,7 @@ assert str(canonical_adr) == 'MMDkQMv8pGGmAXdVyxaW8YtQMCHw7eouma'
 
 ```
 
-Without special parameter that makes CCoinAddress to decode legacy p2sh addresses:
+With special parameter that makes CCoinAddress to decode legacy p2sh addresses:
 
 ```python
 from bitcointx import select_chain_params
