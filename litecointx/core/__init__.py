@@ -18,9 +18,11 @@ from bitcointx.core import (
     CMutableTransaction, CMutableTxIn, CMutableTxOut, CMutableTxWitness,
     CMutableTxInWitness, COutPoint, CMutableOutPoint
 )
+from .script import ScriptLitecoinClassDispatcher
 
 
-class CoreLitecoinClassDispatcher(CoreCoinClassDispatcher):
+class CoreLitecoinClassDispatcher(CoreCoinClassDispatcher,
+                                  depends=[ScriptLitecoinClassDispatcher]):
     ...
 
 

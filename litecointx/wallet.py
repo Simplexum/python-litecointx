@@ -17,9 +17,11 @@ from bitcointx.wallet import (
     CBase58CoinAddress, CBech32CoinAddress,
     CCoinKey, CCoinExtKey, CCoinExtPubKey
 )
+from .core import CoreLitecoinClassDispatcher
 
 
-class WalletLitecoinClassDispatcher(WalletCoinClassDispatcher):
+class WalletLitecoinClassDispatcher(WalletCoinClassDispatcher,
+                                    depends=[CoreLitecoinClassDispatcher]):
     ...
 
 
