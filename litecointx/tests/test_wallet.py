@@ -19,7 +19,7 @@ from bitcointx import ChainParams
 from bitcointx.wallet import CCoinAddress, CCoinAddressError
 
 from litecointx import LitecoinMainnetParams
-from litecointx.wallet import P2SHLitecoinLegacyAddress
+from litecointx.wallet import P2SHLitecoinAddress, P2SHLitecoinLegacyAddress
 
 
 class Test_LitecoinAddress(unittest.TestCase):
@@ -35,3 +35,10 @@ class Test_LitecoinAddress(unittest.TestCase):
         with ChainParams('litecoin'):
             with self.assertRaises(CCoinAddressError):
                 a = CCoinAddress('3F1c6UWAs9RLN2Mbt5bAJue12VhVCorXzs')
+
+        l_addr = '3N4DqfrHhStCao4NjwroxoegjydkJk3P9Z'
+        c_addr = 'MUGN9ZGFeZjdPJLGqpr9nSu64gECLRzQrx'
+        self.assertEqual(
+            str(P2SHLitecoinAddress.from_scriptPubKey(
+                P2SHLitecoinLegacyAddress(l_addr).to_scriptPubKey())),
+            c_addr)
