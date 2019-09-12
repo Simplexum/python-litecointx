@@ -10,6 +10,7 @@
 # LICENSE file.
 
 from bitcointx import get_current_chain_params
+from bitcointx.util import dispatcher_mapped_list
 from bitcointx.wallet import (
     WalletCoinClassDispatcher, WalletCoinClass,
     CCoinAddress, P2SHCoinAddress, P2WSHCoinAddress,
@@ -64,11 +65,12 @@ class CLitecoinRegtestAddress(CCoinAddress, WalletLitecoinRegtestClass):
 
 class CBase58LitecoinAddress(CBase58CoinAddress, CLitecoinAddress):
     @classmethod
-    def match_base58_classes(cls, data, candidates):
-        if get_current_chain_params().allow_legacy_p2sh:
-            candidates = [P2SHLitecoinLegacyAddress] + candidates
-        return super(CBase58LitecoinAddress,
-                     cls).match_base58_classes(data, candidates)
+    def base58_get_match_candidates(cls):
+        candidates = dispatcher_mapped_list(cls)
+        if P2SHLitecoinAddress in candidates\
+                and get_current_chain_params().allow_legacy_p2sh:
+            return [P2SHLitecoinLegacyAddress] + candidates
+        return super(CBase58LitecoinAddress, cls).base58_get_match_candidates()
 
 
 class CBase58LitecoinTestnetAddress(CBase58CoinAddress,
