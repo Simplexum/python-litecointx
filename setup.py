@@ -17,14 +17,16 @@ setup(name='python-litecointx',
       long_description=README,
       long_description_content_type='text/markdown',
       classifiers=[
-          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 3.6",
+          "Programming Language :: Python :: 3.7",
+          "Programming Language :: Python :: 3.8",
           "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
       ],
-      python_requires='>=3.4',
+      python_requires='>=3.6',
       url='https://github.com/Simplexum/python-litecointx',
       keywords='litecoin',
       packages=find_packages(),
       zip_safe=False,
       install_requires=requires,
       test_suite="litecointx.tests"
-     )
+      )
