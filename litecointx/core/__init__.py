@@ -11,6 +11,8 @@
 
 # pylama:ignore=E501
 
+from typing import cast
+
 from bitcointx.core import (
     CoreCoinClassDispatcher, CoreCoinClass,
 
@@ -90,6 +92,12 @@ class CLitecoinMutableTxWitness(CLitecoinTxWitness, CMutableTxWitness,
 class CLitecoinTransaction(CTransaction, CoreLitecoinClass):
     """Litecoin transaction, mutable version"""
     __slots__ = []
+
+    def to_mutable(self) -> 'CLitecoinMutableTransaction':
+        return cast('CLitecoinMutableTransaction', super().to_mutable())
+
+    def to_immutable(self) -> 'CLitecoinTransaction':
+        return cast('CLitecoinTransaction', super().to_immutable())
 
 
 class CLitecoinMutableTransaction(CLitecoinTransaction, CMutableTransaction,
