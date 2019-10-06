@@ -9,14 +9,17 @@
 # propagated, or distributed except according to the terms contained in the
 # LICENSE file.
 
+from typing import Type, List
+
 from bitcointx import get_current_chain_params
-from bitcointx.util import dispatcher_mapped_list
+from bitcointx.util import dispatcher_mapped_list, ClassMappingDispatcher
 from bitcointx.wallet import (
     WalletCoinClassDispatcher, WalletCoinClass,
     CCoinAddress, P2SHCoinAddress, P2WSHCoinAddress,
     P2PKHCoinAddress, P2WPKHCoinAddress,
     CBase58CoinAddress, CBech32CoinAddress,
-    CCoinKey, CCoinExtKey, CCoinExtPubKey
+    CCoinKey, CCoinExtKey, CCoinExtPubKey,
+    T_CBase58DataDispatched
 )
 from .core import CoreLitecoinClassDispatcher
 
@@ -65,7 +68,9 @@ class CLitecoinRegtestAddress(CCoinAddress, WalletLitecoinRegtestClass):
 
 class CBase58LitecoinAddress(CBase58CoinAddress, CLitecoinAddress):
     @classmethod
-    def base58_get_match_candidates(cls):
+    def base58_get_match_candidates(cls: Type[T_CBase58DataDispatched]
+                                    ) -> List[Type[T_CBase58DataDispatched]]:
+        assert isinstance(cls, ClassMappingDispatcher)
         candidates = dispatcher_mapped_list(cls)
         if P2SHLitecoinAddress in candidates\
                 and get_current_chain_params().allow_legacy_p2sh:

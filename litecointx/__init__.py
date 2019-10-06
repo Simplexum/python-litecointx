@@ -15,17 +15,18 @@ import litecointx.core
 import litecointx.core.script
 import litecointx.wallet
 
-from bitcointx import BitcoinMainnetParams
+from bitcointx import ChainParamsBase
 
 
 # Declare chain params after frontend classes are regstered in wallet.py,
 # so that issubclass checks in ChainParamsMeta.__new__() would pass
-class LitecoinMainnetParams(BitcoinMainnetParams,
+class LitecoinMainnetParams(ChainParamsBase,
                             name=('litecoin', 'litecoin/mainnet')):
     RPC_PORT = 9332
     WALLET_DISPATCHER = litecointx.wallet.WalletLitecoinClassDispatcher
 
-    def __init__(self, allow_legacy_p2sh=False):
+    def __init__(self, allow_legacy_p2sh: bool = False) -> None:
+        super().__init__()
         self.allow_legacy_p2sh = allow_legacy_p2sh
 
 
