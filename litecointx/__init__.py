@@ -34,6 +34,12 @@ class LitecoinTestnetParams(LitecoinMainnetParams, name='litecoin/testnet'):
     RPC_PORT = 19332
     WALLET_DISPATCHER = litecointx.wallet.WalletLitecoinTestnetClassDispatcher
 
+    def get_datadir_extra_name(self) -> str:
+        return 'testnet4'
+
+    def get_network_id(self) -> str:
+        return "test"
+
 
 class LitecoinRegtestParams(LitecoinMainnetParams, name='litecoin/regtest'):
     RPC_PORT = 19443
